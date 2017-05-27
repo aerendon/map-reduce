@@ -1,4 +1,7 @@
 # map-reduce
+
+* Python 3.5
+
 ## Dependencies
 ### Python virtualEnv
 
@@ -11,6 +14,6 @@ apt-get install python-virtualenv
 
 ```bash
 mkdir env
-virtualenv env
+virtualenv -p /usr/bin/python3 env
 env/bin/pip install -r requirements.txt
 ```
