@@ -57,8 +57,9 @@ def main():
 
                 if req_json['req'] == 'send':
                     socket.send_string('Received ' + req_json['msg']['filename'])
+
                     mappers = ffile.get_file('mapper.conf')
-                    print(mappers)
+                    fserver.send_chunk(server, mappers, req_json['msg']['data'])
 
         except KeyboardInterrupt:
             print('')

@@ -55,8 +55,8 @@ def main():
                 # #  Do some 'work'
                 socket.connect('tcp://' + req_json['from'])
 
-                if req_json['req'] == 'send':
-                    socket.send_string('Received ' + req_json['msg']['filename'])
+                if req_json['req'] == 'send_server':
+                    socket.send_string(req_json['to'] + ' Received the chunk')
 
         except KeyboardInterrupt:
             print('')

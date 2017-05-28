@@ -59,8 +59,6 @@ def main():
                         print(colored('Sending the file to -> ' + client['serverIP'] + ':' + client['serverPort'], 'yellow'))
                         send_req = ffile.create_req('send', client['ip'] + ':' + client['port'], client['serverIP'] + ':' + client['serverPort'], {'origin': client['ip'] + ':' + client['port'], 'filename': os.path.basename(inp[1]), 'data': file})
 
-                        # ffile.printJSON(send_req)
-
                         socket_send = context.socket(zmq.REQ)
                         socket_send.connect('tcp://' + send_req['to'])
                         socket_send.send_string(json.dumps(send_req))
