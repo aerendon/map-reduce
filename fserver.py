@@ -11,6 +11,6 @@ def clear():
 
 
 def server_info(server):
-    print (colored('#############', 'magenta'))
+    print (colored('############# SERVER', 'magenta'))
     print (colored('My IP -->' + server['ip'] + ':' + server['port'], 'magenta'))
     print (colored('#############', 'magenta'))

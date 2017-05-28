@@ -3,8 +3,14 @@
 from termcolor import colored
 import codecs
 import json
+import os
 import zmq
 
+
+def clear():
+    os.system('clear') # on linux / os x
+    # os.system('cls') # on windows
+    
 
 def get_file(path):
     try:

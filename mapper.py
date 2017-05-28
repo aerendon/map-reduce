@@ -6,11 +6,11 @@ import sys
 import zmq
 
 import ffile
-import fserver
+import fmapper
 
-# server data
-server = json.dumps({'ip': '', 'port': ''})
-server = json.loads(server)
+# mapper data
+mapper = json.dumps({'ip': '', 'port': ''})
+mapper = json.loads(mapper)
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
@@ -18,15 +18,15 @@ socket_send = context.socket(zmq.REQ)
 
 
 def get_id(my_ip, socket):
-    global server
-    server['ip'], server['port'] = my_ip.split(':')
-    socket.bind('tcp://*:' + server['port'])
+    global mapper
+    mapper['ip'], mapper['port'] = my_ip.split(':')
+    socket.bind('tcp://*:' + mapper['port'])
 
 
 def main():
-    global server, socket
+    global mapper, socket
     
-    fserver.clear()
+    ffile.clear()
     # print len(sys.argv)
     my_ip = some_ip = ''
 
@@ -43,7 +43,7 @@ def main():
         my_ip = sys.argv[1]
         get_id(my_ip, socket)  # Arguments to variables python
 
-        fserver.server_info(server)
+        fmapper.mapper_info(mapper)
         try:
             while True:
                 #  Wait for next request from client
@@ -57,8 +57,6 @@ def main():
 
                 if req_json['req'] == 'send':
                     socket.send_string('Received ' + req_json['msg']['filename'])
-                    mappers = ffile.get_file('mapper.conf')
-                    print(mappers)
 
         except KeyboardInterrupt:
             print('')
