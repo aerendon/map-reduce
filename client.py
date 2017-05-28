@@ -8,7 +8,7 @@ import zmq
 import fclient
 import ffile
 
-#client data
+# client data
 client = json.dumps({'ip': '', 'port': '', 'serverIP': '', 'serverPort': ''})
 client = json.loads(client)
 
@@ -51,6 +51,22 @@ def main():
                 
                 if inp[0] == 'help' or inp[0] == '-h':
                     fclient.options()
+                elif inp[0] == '-s' or inp[0] == 'send':
+                    file = ffile.get_file(inp[1])
+
+                    if file:
+                        print(colored('Sending the file to -> ' + client['serverIP'] + ':' + client['serverPort'], 'yellow'))
+                        send_req = ffile.create_req('send', client['ip'] + ':' + client['port'], client['serverIP'] + ':' + client['serverPort'], {'origin': client['ip'] + ':' + client['port'], 'data': file})
+
+                        # ffile.printJSON(send_req)
+
+                        socket_send = context.socket(zmq.REQ)
+                        socket_send.connect('tcp://' + send_req['to'])
+                        socket_send.send_string(json.dumps(send_req))
+                        message = socket_send.recv()
+                        print(colored(message.decode("utf-8"), 'green'))
+                    else:
+                        print(colored('Invalid File' ,'red', attrs=['bold']))
                 elif inp[0] == 'exit':
                     print (colored('See you later', 'yellow'))
                     break
@@ -61,7 +77,7 @@ def main():
             print('')
             print(colored('See you later', 'yellow'))
             exit(0)
-    # print(ffile.get_file('quijote.txt'))
+    
 
 
 if __name__ == '__main__':
